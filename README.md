@@ -1,6 +1,8 @@
 # yUML diagrammer
 Allows the creation of offline UML diagrams based on the [yUML Syntax](http://yuml.me/).
 
+<a href="https://www.npmjs.com/package/yuml-diagram"><img alt="NPM Status" src="https://img.shields.io/npm/v/yuml-diagram.svg?style=flat"></a>
+
 ## Features
 * Currently, the following diagram types are supported: 
   + Class
