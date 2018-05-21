@@ -6,7 +6,7 @@ const stateDiagram = require('./state-diagram.js');
 const deploymentDiagram = require('./deployment-diagram.js');
 const packageDiagram = require('./package-diagram.js');
 const sequenceDiagram = require('./sequence-diagram.js');
-require("viz.js");
+const Viz = require("viz.js");
 require('./svg-utils.js')();
 
 module.exports = function()
@@ -22,7 +22,7 @@ module.exports = function()
         {
             var line = lines[i].replace(/^\s+|\s+$/g,'');  // Removes leading and trailing spaces
             if (line.startsWith("//"))
-                processDirectives(line, options);
+                this.processDirectives(line, options);
             else if (line.length > 0)
                 newlines.push(line);
         }
@@ -73,10 +73,10 @@ module.exports = function()
             return "Error parsing the yUML file";
         }
 
-        if (dot == null && svgs == null)
+        if (dot === null && svg === null)
             return "Error: unable to parse the yUML file";
 
-        if (dot != null)
+        if (dot !== null)
         {
             try {
                 svg = Viz(buildDotHeader(isDark) + dot);
@@ -90,7 +90,7 @@ module.exports = function()
         return svg;
     }
 
-    processDirectives = function(line, options)
+    this.processDirectives = function(line, options)
     {
         const directions = {
             leftToRight: "LR",

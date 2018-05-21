@@ -1,16 +1,13 @@
 {
-    "name": "yuml",
+    "name": "yuml-diagram",
     "displayName": "yUML",
     "description": "UML diagramming package based on the yUML syntax",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "publisher": "Jaime Olivares",
-    "license": "SEE LICENSE IN LICENSE.md",
+    "license": "MIT",
     "repository": {
       "type": "git",
       "url": "https://github.com/jaime-olivares/yuml"
-    },
-    "_bin_": {
-        "yuml2svg": "bin/yuml2svg.js"
     },
     "bugs": {
       "url": "https://github.com/jaime-olivares/yuml/issues",
@@ -25,7 +22,7 @@
       "uml",
       "diagram",
       "sequence",
-      "markdown"
+      "svg"
     ],
     "main": "./index.js",
     "dependencies": {
