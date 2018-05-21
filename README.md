@@ -16,7 +16,7 @@ Allows the creation of offline UML diagrams based on the [yUML Syntax](http://yu
 * Embedded rendering engine: **No need to call an external web service**
 
 ## yUML syntax
-Please refer to the [wiki page](https://github.com/jaime-olivares/yuml/wiki)
+Please refer to the [wiki page](https://github.com/jaime-olivares/yuml-diagram/wiki)
 
 ## Invocation methods
 
@@ -28,7 +28,7 @@ Code sample here
 If you have experience developing Visual Studio Code extensions, please propose a detailed solution for any reported issue or feature request.
 
 ## Contributing
-For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml/blob/master/CONTRIBUTING.md)
+For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml-diagram/blob/master/CONTRIBUTING.md)
 
 ## Credits
 * Syntax and some examples taken from [yuml.me](http://yuml.me/diagram/scruffy/class/samples)
