@@ -22,12 +22,6 @@ Please refer to the [wiki page](https://github.com/jaime-olivares/yuml/wiki)
 Code sample here
 ````
 
-## Dependencies
-This npm package depends only on the [jsdom npm package](https://www.npmjs.com/package/jsdom), which is cross-platform and is installed automatically.
-
-Also, it contains a frozen version of viz-lite.js (see [viz.js](https://github.com/mdaines/viz.js)). Newest versions have a bug that caused [issue #23](https://github.com/jaime-olivares/vscode-yuml/issues/23).
-No other product or library is needed and thus the installation process is quite simple across platforms.
-
 ## Issue reporting
 If you have experience developing Visual Studio Code extensions, please propose a detailed solution for any reported issue or feature request.
 

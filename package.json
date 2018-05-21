@@ -1,0 +1,35 @@
+{
+    "name": "yuml",
+    "displayName": "yUML",
+    "description": "UML diagramming package based on the yUML syntax",
+    "version": "1.0.0",
+    "publisher": "Jaime Olivares",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/jaime-olivares/yuml"
+    },
+    "_bin_": {
+        "yuml2svg": "bin/yuml2svg.js"
+    },
+    "bugs": {
+      "url": "https://github.com/jaime-olivares/yuml/issues",
+      "email": "jaime_olivares@hotmail.com"
+    },
+    "homepage": "https://github.com/jaime-olivares/yuml/blob/master/README.md",
+    "engines": {
+        "node": ">=6.5.0"
+    },
+    "keywords": [
+      "yuml",
+      "uml",
+      "diagram",
+      "sequence",
+      "markdown"
+    ],
+    "main": "./index.js",
+    "dependencies": {
+      "jsdom": "^11.6.2",
+      "viz.js": "1.8.1"
+    }
+}
