@@ -1,32 +1,32 @@
 {
-    "name": "yuml-diagram",
-    "displayName": "yUML",
-    "description": "UML diagramming package based on the yUML syntax",
-    "version": "1.0.3",
-    "publisher": "Jaime Olivares",
-    "license": "MIT",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/jaime-olivares/yuml"
-    },
-    "bugs": {
-      "url": "https://github.com/jaime-olivares/yuml/issues",
-      "email": "jaime_olivares@hotmail.com"
-    },
-    "homepage": "https://github.com/jaime-olivares/yuml/blob/master/README.md",
-    "engines": {
-        "node": ">=6.5.0"
-    },
-    "keywords": [
-      "yuml",
-      "uml",
-      "diagram",
-      "sequence",
-      "svg"
-    ],
-    "main": "./index.js",
-    "dependencies": {
-      "jsdom": "^11.6.2",
-      "viz.js": "1.8.1"
-    }
+  "name": "yuml-diagram",
+  "displayName": "yUML",
+  "description": "UML diagramming package based on the yUML syntax",
+  "version": "1.0.4",
+  "publisher": "Jaime Olivares",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaime-olivares/yuml"
+  },
+  "bugs": {
+    "url": "https://github.com/jaime-olivares/yuml/issues",
+    "email": "jaime_olivares@hotmail.com"
+  },
+  "homepage": "https://github.com/jaime-olivares/yuml/blob/master/README.md",
+  "engines": {
+    "node": ">=6.5.0"
+  },
+  "keywords": [
+    "yuml",
+    "uml",
+    "diagram",
+    "sequence",
+    "svg"
+  ],
+  "main": "./index.js",
+  "dependencies": {
+    "jsdom": "^11.11.0",
+    "viz.js": "^1.8.2"
+  }
 }
