@@ -153,24 +153,62 @@ module.exports = function()
 
     this.serializeDot = function(obj)
     {
-        var text = "";
-
-        for (key in obj)
-        {
-            if (text.length == 0)
-                text = "[ ";
-            else
-                text += ", ";
-
-            text += key + ' = ';
-            if (typeof obj[key] === "string")
-                text += '"' + obj[key] + '"';
-            else
-                text += obj[key];
-        }
-
-        text += " ]";
-        return text;
+        if (
+            obj.shape &&
+            obj.shape === "record" &&
+            !/^<.+>(|<.+>)*$/.test(obj.label)
+          ) {
+            // Graphviz documentation says (https://www.graphviz.org/doc/info/shapes.html):
+            // The record-based shape has largely been superseded and greatly generalized by HTML-like labels.
+            // That is, instead of using shape=record, one might consider using shape=none, margin=0 and an HTML-like label. [...]
+            // Also note that there are problems using non-trivial edges (edges with ports or labels) between adjacent nodes
+            // on the same rank if one or both nodes has a record shape.
+        
+            if (obj.label.includes("|")) {
+              const ESCAPED_CHARS = {
+                "\\n": "<BR/>",
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+              };
+              // If label contains a pipe, we need to use an HTML-like label
+              return (
+                '[fontsize=10,label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="9">' +
+                obj.label
+                  .split("|")
+                  .map(text => {
+                    let htmlTDNode = "<TD";
+                    if (text.startsWith("<")) {
+                      const closingTagPosition = text.indexOf(">");
+                      htmlTDNode += ` PORT="${text.substr(1, closingTagPosition - 1)}"`;
+                      text = text.substr(closingTagPosition + 1);
+                    }
+                    htmlTDNode += ">";
+                    for (const char of text) {
+                      htmlTDNode += ESCAPED_CHARS[char] || char;
+                    }
+                    htmlTDNode += "</TD>";
+                    return `<TR>${htmlTDNode}</TR>`;
+                  })
+                  .join("") +
+                "</TABLE>>]"
+              );
+            }
+        
+            // To avoid this issue, we can use a "rectangle" shape
+            obj.shape = "rectangle";
+          }
+          return (
+            "[" +
+            Object.keys(obj)
+              .map(
+                key =>
+                  `${key}=` +
+                  ("string" === typeof obj[key] ? `"${obj[key]}"` : obj[key])
+              )
+              .join(" , ") +
+            " ]"
+          );
     }
 
     this.serializeDotElements = function(arr)
@@ -197,13 +235,13 @@ module.exports = function()
         if (isDark)
         {
             header += "  graph [ bgcolor=transparent, fontname=Helvetica ]\r\n";
-            header += "  node [ color=white, fontcolor=white, fontname=Helvetica ]\r\n";
+            header += "  node [ shape=none, margin=0, color=white, fontcolor=white, fontname=Helvetica ]\r\n";
             header += "  edge [ color=white, fontcolor=white, fontname=Helvetica ]\r\n";
         }
         else 
         {
             header += "  graph [ fontname=Helvetica ]\r\n";
-            header += "  node [ fontname=Helvetica ]\r\n";
+            header += "  node [ shape=none, margin=0, fontname=Helvetica ]\r\n";
             header += "  edge [ fontname=Helvetica ]\r\n";
         }
         return header;
