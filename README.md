@@ -33,9 +33,6 @@ var svgLightBg = yuml.processYumlDocument(yumlText, false);
 var svgDarkBg = yuml.processYumlDocument(yumlText, true);
 ````
 
-## Issue reporting
-If you have experience developing Visual Studio Code extensions, please propose a detailed solution for any reported issue or feature request.
-
 ## Contributing
 For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml-diagram/blob/master/CONTRIBUTING.md)
 
