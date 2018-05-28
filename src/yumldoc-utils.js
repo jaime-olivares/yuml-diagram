@@ -11,7 +11,7 @@ require('./svg-utils.js')();
 
 module.exports = function()
 {
-    this.processYumlDocument = function(text, filename, isDark) 
+    this.processYumlDocument = function(text, isDark) 
     {
         var newlines = [];
         var options = { dir: "TB", generate: false, dark: isDark};
