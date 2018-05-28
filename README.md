@@ -18,10 +18,19 @@ Allows the creation of offline UML diagrams based on the [yUML Syntax](http://yu
 ## yUML syntax
 Please refer to the [wiki page](https://github.com/jaime-olivares/yuml-diagram/wiki)
 
-## Invocation methods
-
+## Installation
+This library is published as a npm package [here](https://www.npmjs.com/package/yuml-diagram). For installing use:
+````bash
+npm install yuml-diagram
 ````
-Code sample here
+
+## Usage example
+````javascript
+const yuml_diagram = require('yuml-diagram');
+
+var yuml = new yuml_diagram();
+var svgLightBg = yuml.processYumlDocument(yumlText, false);
+var svgDarkBg = yuml.processYumlDocument(yumlText, true);
 ````
 
 ## Issue reporting
