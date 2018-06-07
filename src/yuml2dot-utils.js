@@ -13,8 +13,7 @@ module.exports = function()
         function replaceChar(c)
         {
             c = c.replace('{', '\\{').replace('}', '\\}');
-            c = c.replace(';', '\\n');
-            c = c.replace(' ', '\\ ');
+            c = c.replace(';', '\n');
             c = c.replace('<', '\\<').replace('>', '\\>');
             // c = c.replace('\\n\\n', '\\n');
             return c;
@@ -128,7 +127,7 @@ module.exports = function()
             lines = label.split('|');
 
         for (var j=0; j<lines.length; j++)
-            lines[j] = wordwrap(lines[j], wrap, "\\n");
+            lines[j] = wordwrap(lines[j], wrap, "\n");
 
         label = lines.join('|');
 
@@ -166,7 +165,7 @@ module.exports = function()
         
             if (obj.label.includes("|")) {
               const ESCAPED_CHARS = {
-                "\\n": "<BR/>",
+                "\n": "<BR/>",
                 "&": "&amp;",
                 "<": "&lt;",
                 ">": "&gt;",

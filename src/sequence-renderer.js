@@ -37,11 +37,6 @@ module.exports = function(actors, signals, uids, isDark)
       this.draw_actors(y);
       this.draw_signals(y + this._actors_height);
     };
-
-    function reformatText(text)
-    {
-      return text.replace(/\\ /g, " ").replace(/\\n/g, "\n");
-    }    
     
     this.layout = function() 
     {
@@ -50,7 +45,7 @@ module.exports = function(actors, signals, uids, isDark)
 
       this.actors.forEach(function(a) 
       {
-        var text = reformatText(a.label);
+        var text = a.label;
         var bb = this.svg_.getTextSize(text);
         a.text_bb = bb;
 
@@ -84,7 +79,7 @@ module.exports = function(actors, signals, uids, isDark)
       signals.forEach(function(s) {
         var a, b; // Indexes of the left and right actors involved
 
-        var text = reformatText(s.message);
+        var text = s.message;
         var bb = this.svg_.getTextSize(text);
 
         s.text_bb = bb;
@@ -264,7 +259,6 @@ module.exports = function(actors, signals, uids, isDark)
 
     this.draw_text = function (x, y, text, dontDrawBox, color) 
     {
-        var text = reformatText(text);
         var t = this.svg_.createText(text, x, y, color);
 
         if (!dontDrawBox) 
