@@ -1,0 +1,4 @@
+// {type:class}
+// {direction:leftToRight}
+// {generate:true}
+[Customer|Forename;Surname;Email|Save()]

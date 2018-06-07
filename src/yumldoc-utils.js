@@ -1,4 +1,3 @@
-const fs = require('fs');
 const classDiagram = require('./class-diagram.js');
 const usecaseDiagram = require('./usecase-diagram.js');
 const activityDiagram = require('./activity-diagram.js');
