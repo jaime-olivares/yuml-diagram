@@ -2,7 +2,7 @@
   "name": "yuml-diagram",
   "displayName": "yUML",
   "description": "UML diagramming package based on the yUML syntax",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "Jaime Olivares",
   "license": "MIT",
   "repository": {
