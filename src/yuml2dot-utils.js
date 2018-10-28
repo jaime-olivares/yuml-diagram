@@ -171,8 +171,9 @@ module.exports = function()
                 ">": "&gt;",
               };
               // If label contains a pipe, we need to use an HTML-like label
-              return (
-                '[fontsize=10,label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="9">' +
+              return `[fontsize=10,label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="9" ${
+                  obj.fillcolor ? `BGCOLOR="${obj.fillcolor}"` : ""
+                } ${obj.fontcolor ? `COLOR="${obj.fontcolor}"` : ""}>${
                 obj.label
                   .split("|")
                   .map(text => {
@@ -189,9 +190,7 @@ module.exports = function()
                     htmlTDNode += "</TD>";
                     return `<TR>${htmlTDNode}</TR>`;
                   })
-                  .join("") +
-                "</TABLE>>]"
-              );
+                  .join("")}</TABLE>>]`;
             }
         
             // To avoid this issue, we can use a "rectangle" shape
