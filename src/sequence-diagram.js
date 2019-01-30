@@ -40,6 +40,10 @@ module.exports = function(specLines, options)
                 var ret = extractBgAndNote(part, true);
                 exprs.push([ret.isNote ? "note" : "object", ret.part, ret.bg, ret.fontcolor]);
             }
+            else if  (part == "-")
+            {
+                exprs.push(["signal", "", "", "dashed", ""]);  // note connector
+            }
             else if (part.indexOf(">") >= 0)  // message
             {
                 var style = (part.indexOf(".>") >= 0) ? "dashed" : "solid";
