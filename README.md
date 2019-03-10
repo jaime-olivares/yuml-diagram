@@ -36,6 +36,8 @@ var svgDarkBg = yuml.processYumlDocument(yumlText, true);
 ## Contributing
 For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml-diagram/blob/master/CONTRIBUTING.md)
 
+Have a nice diagram to show? Please send it for publishing here!
+
 ## Credits
 * Syntax and some examples taken from [yuml.me](http://yuml.me/diagram/scruffy/class/samples)
 * This package uses a Javascript port of [Dot/Graphviz](http://www.graphviz.org/) called [viz.js](https://github.com/mdaines/viz.js)
