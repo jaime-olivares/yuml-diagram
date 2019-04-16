@@ -3,10 +3,18 @@ const fs = require('fs');
 module.exports = function()
 {
     var colorTable = null;
+    const ESCAPED_CHARS = 
+    {
+        "\n": "<BR/>",
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+    };
 
     this.escape_label = function(label)
     {
         var newlabel = "";
+
         for (var i=0; i<label.length; i++)
             newlabel += replaceChar(label.charAt(i));
 
@@ -18,6 +26,14 @@ module.exports = function()
             // c = c.replace('\\n\\n', '\\n');
             return c;
         }
+
+        return newlabel;
+    }
+
+    this.unescape_label = function(label)
+    {
+        var newlabel = label.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
+        newlabel = newlabel.replace(/\\</g, '<').replace(/\\>/g, '>');
 
         return newlabel;
     }
@@ -152,11 +168,8 @@ module.exports = function()
 
     this.serializeDot = function(obj)
     {
-        if (
-            obj.shape &&
-            obj.shape === "record" &&
-            !/^<.+>(|<.+>)*$/.test(obj.label)
-          ) {
+        if (obj.shape === "record" && !/^<.+>(|<.+>)*$/.test(obj.label)) 
+        {
             // Graphviz documentation says (https://www.graphviz.org/doc/info/shapes.html):
             // The record-based shape has largely been superseded and greatly generalized by HTML-like labels.
             // That is, instead of using shape=record, one might consider using shape=none, margin=0 and an HTML-like label. [...]
@@ -164,12 +177,6 @@ module.exports = function()
             // on the same rank if one or both nodes has a record shape.
         
             if (obj.label.includes("|")) {
-              const ESCAPED_CHARS = {
-                "\n": "<BR/>",
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-              };
               // If label contains a pipe, we need to use an HTML-like label
               return `[fontsize=10,label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="9" ${
                   obj.fillcolor ? `BGCOLOR="${obj.fillcolor}"` : ""
@@ -177,13 +184,8 @@ module.exports = function()
                 obj.label
                   .split("|")
                   .map(text => {
-                    let htmlTDNode = "<TD";
-                    if (text.startsWith("<")) {
-                      const closingTagPosition = text.indexOf(">");
-                      htmlTDNode += ` PORT="${text.substr(1, closingTagPosition - 1)}"`;
-                      text = text.substr(closingTagPosition + 1);
-                    }
-                    htmlTDNode += ">";
+                    text = this.unescape_label(text);
+                    let htmlTDNode = "<TD>";
                     for (const char of text) {
                       htmlTDNode += ESCAPED_CHARS[char] || char;
                     }
@@ -196,6 +198,7 @@ module.exports = function()
             // To avoid this issue, we can use a "rectangle" shape
             obj.shape = "rectangle";
           }
+
           return (
             "[" +
             Object.keys(obj)
