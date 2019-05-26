@@ -18,5 +18,5 @@ steps:
 - task: Npm@1
   inputs:
     command: 'publish'
-    publishRegistry: 'useFeed'
-    publishFeed: 'f77c1606-fdb9-4762-82ba-11a6f0396b52'
+    customRegistry: 'useFeed'
+    publishEndpoint: 'npmjs.org'
