@@ -14,3 +14,9 @@ steps:
     npm install
     npm build
   displayName: 'npm install and build'
+
+- task: Npm@1
+  inputs:
+    command: 'publish'
+    customRegistry: 'useFeed'
+    publishEndpoint: 'npmjs.org'
