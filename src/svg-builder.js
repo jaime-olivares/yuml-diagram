@@ -122,7 +122,7 @@ module.exports = function(isDark)
         openArrow.setAttribute('markerHeight', '6');
         openArrow.setAttribute('orient', 'auto');
 
-        openArrowPath.setAttribute('style', 'stroke-width: 1; stroke: ' + (isDark ? 'white;' : 'black;'));
+        openArrowPath.setAttribute('style', 'stroke-width: 1; fill: none; stroke: ' + (isDark ? 'white;' : 'black;'));
 
         var svg = this.root_.firstChild; 
         svg.appendChild(defs);
