@@ -4,6 +4,8 @@ Allows the creation of offline UML diagrams based on the [yUML Syntax](http://yu
 <a href="https://www.npmjs.com/package/yuml-diagram"><img alt="NPM Status" src="https://img.shields.io/npm/v/yuml-diagram.svg?style=flat"></a>
 [![Build Status](https://dev.azure.com/jaime-olivares-f/yuml-diagram/_apis/build/status/jaime-olivares.yuml-diagram?branchName=master)](https://dev.azure.com/jaime-olivares-f/yuml-diagram/_build/latest?definitionId=2&branchName=master)
 
+![Example](example.png)
+
 ## Features
 * Currently, the following diagram types are supported: 
   + Class
@@ -33,6 +35,8 @@ var yuml = new yuml_diagram();
 var svgLightBg = yuml.processYumlDocument(yumlText, false);
 var svgDarkBg = yuml.processYumlDocument(yumlText, true);
 ````
+
+Try a live example with **`RunKit`**: https://runkit.com/embed/r21r931hzoqm
 
 ## Contributing
 For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml-diagram/blob/master/CONTRIBUTING.md)

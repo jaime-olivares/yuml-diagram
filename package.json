@@ -2,7 +2,7 @@
   "name": "yuml-diagram",
   "displayName": "yUML",
   "description": "UML diagramming package based on the yUML syntax",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publisher": "Jaime Olivares",
   "license": "MIT",
   "repository": {
@@ -25,6 +25,7 @@
     "svg"
   ],
   "main": "./index.js",
+  "runkitExampleFilename": "./test/npm_test.js",
   "dependencies": {
     "jsdom": "^11.11.0",
     "viz.js": "^1.8.2"

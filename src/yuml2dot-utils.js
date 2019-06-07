@@ -231,20 +231,13 @@ module.exports = function()
 
     this.buildDotHeader = function(isDark)
     {
-        var header = "digraph G {\r\n";
+        var colors = isDark ? "color=white, fontcolor=white" : "color=black, fontcolor=black";
 
-        if (isDark)
-        {
-            header += "  graph [ bgcolor=transparent, fontname=Helvetica ]\r\n";
-            header += "  node [ shape=none, margin=0, color=white, fontcolor=white, fontname=Helvetica ]\r\n";
-            header += "  edge [ color=white, fontcolor=white, fontname=Helvetica ]\r\n";
-        }
-        else 
-        {
-            header += "  graph [ fontname=Helvetica ]\r\n";
-            header += "  node [ shape=none, margin=0, fontname=Helvetica ]\r\n";
-            header += "  edge [ fontname=Helvetica ]\r\n";
-        }
+        var header = "digraph G {\r\n";
+            + "  graph [ bgcolor=transparent, fontname=Helvetica ]\r\n"
+            + "  node [ shape=none, margin=0, " + colors + ", fontname=Helvetica ]\r\n"
+            + "  edge [ " + colors + ", fontname=Helvetica ]\r\n";
+
         return header;
     }
 

@@ -1,3 +1,0 @@
-// {type:sequence}
-[:Computer]async test>>[:Server]
-[:Computer]sync test>[:Server]
