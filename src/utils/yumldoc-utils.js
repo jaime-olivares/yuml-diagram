@@ -1,10 +1,10 @@
-const classDiagram = require('./class-diagram.js');
-const usecaseDiagram = require('./usecase-diagram.js');
-const activityDiagram = require('./activity-diagram.js');
-const stateDiagram = require('./state-diagram.js');
-const deploymentDiagram = require('./deployment-diagram.js');
-const packageDiagram = require('./package-diagram.js');
-const sequenceDiagram = require('./sequence-diagram.js');
+const classDiagram = require('../diagrams/class-diagram.js');
+const usecaseDiagram = require('../diagrams/usecase-diagram.js');
+const activityDiagram = require('../diagrams/activity-diagram.js');
+const stateDiagram = require('../diagrams/state-diagram.js');
+const deploymentDiagram = require('../diagrams/deployment-diagram.js');
+const packageDiagram = require('../diagrams/package-diagram.js');
+const sequenceDiagram = require('../diagrams/sequence-diagram.js');
 const Viz = require("viz.js");
 require('./svg-utils.js')();
 

@@ -1,4 +1,4 @@
-var svg_builder = require('./svg-builder.js');
+var svg_builder = require('../utils/svg-builder.js');
 
 /*
 Rendering algorithms based on:

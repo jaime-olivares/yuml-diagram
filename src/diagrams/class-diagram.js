@@ -1,4 +1,4 @@
-require('./yuml2dot-utils.js')();
+require('../utils/yuml2dot-utils.js')();
 
 /*
 Syntax as specified in yuml.me

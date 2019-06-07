@@ -1,4 +1,4 @@
-require('./yuml2dot-utils.js')();
+require('../utils/yuml2dot-utils.js')();
 const renderer = require('./sequence-renderer.js');
 
 /*

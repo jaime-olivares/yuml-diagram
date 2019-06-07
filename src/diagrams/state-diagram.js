@@ -1,13 +1,15 @@
-require('./yuml2dot-utils.js')();
+require('../utils/yuml2dot-utils.js')();
 
 /*
 Unofficial syntax, based on the activity diagram syntax specified in yuml.me
 
-Node           [node1]
-Association    [node1]-[node2]
-Labeled assoc  [node1]label-[node2]
-Note           [node1]-[note: a note here]
-Comment        // Comments
+Start	         (start)
+End	             (end)
+Activity         (Find Products)
+Flow	         (start)->(Find Products)
+Multiple Assoc.  (start)->(Find Products)->(end)
+Complex case     (Simulator running)[Pause]->(Simulator paused|do/wait)[Unpause]->(Simulator running)
+Comment          // Comments
 */
 
 module.exports = function(specLines, options)
@@ -15,7 +17,7 @@ module.exports = function(specLines, options)
     function parseYumlExpr(specLine)
     {
         var exprs = [];
-        var parts = this.splitYumlExpr(specLine, "[");
+        var parts = this.splitYumlExpr(specLine, "(");
 
         for (var i=0; i<parts.length; i++)
         {
@@ -23,16 +25,20 @@ module.exports = function(specLines, options)
             if (part.length == 0)
                 continue;
 
-            if (part.match(/^\[.*\]$/)) // node
+            if (part.match(/^\(.*\)$/)) // state
             {
                 part = part.substr(1, part.length-2);
                 var ret = extractBgAndNote(part, true);
-                exprs.push([ret.isNote ? "note" : "box3d", ret.part, ret.bg, ret.fontcolor]);
+                exprs.push([ret.isNote ? "note" : "record", ret.part, ret.bg, ret.fontcolor]);
             }
-            else if (part.match(/-$/))  // line w/ or wo/ label
+            else if (part.match(/->$/))  // arrow
             {
-                part = part.substr(0, part.length-1).trim();
-                exprs.push(["edge", "none", "none", part, "solid"]);
+                part = part.substr(0, part.length-2).trim();
+                exprs.push(["edge", "none", "vee", part, "solid"]);
+            }
+            else if (part == '-')  // connector for notes
+            {
+                exprs.push(["edge", "none", "none", "", "solid"]);
             }
             else
                 throw("Invalid expression");
@@ -56,7 +62,7 @@ module.exports = function(specLines, options)
             {
                 var type = elem[k][0];
 
-                if (type == "note" || type == "box3d")
+                if (type == "note" || type == "record")
                 {
                     var label = elem[k][1];
                     if (uids.hasOwnProperty(recordName(label)))
@@ -65,23 +71,39 @@ module.exports = function(specLines, options)
                     var uid = 'A' + (len++).toString();
                     uids[recordName(label)] = uid;
 
-                    label = formatLabel(label, 20, true);
-
-                    var node = {
-                        shape: type,
-                        height: 0.5,
-                        fontsize: 10,
-                        margin: "0.20,0.05",
-                        label: label
+                    if (type=="record" && (label=="start" || label=="end"))
+                    {
+                        var node = {
+                            shape: label=="start" ? "circle" : "doublecircle",
+                            height: 0.3,
+                            width: 0.3,
+                            margin: "0,0",
+                            label: ""
+                        }
                     }
+                    else
+                    {
+                        label = formatLabel(label, 20, true);
+                        if (type == "record")
+                            label = "{" + label + "}";
 
-                    if (elem[k][2]) {
-                        node.style = "filled";
-                        node.fillcolor = elem[k][2];
+                        var node = {
+                            shape: type,
+                            height: 0.5,
+                            fontsize: 10,
+                            margin: "0.20,0.05",
+                            label: label,
+                            style: "rounded"
+                        }
+
+                        if (elem[k][2]) {
+                            node.style = "filled";
+                            node.fillcolor = elem[k][2];
+                        }
+
+                        if (elem[k][3])
+                            node.fontcolor = elem[k][3];                         
                     }
-
-                    if (elem[k][3])
-                        node.fontcolor = elem[k][3];                         
 
                     dot += '    ' + uid + ' ' + serializeDot(node) + "\r\n";
                 }
