@@ -2,6 +2,7 @@
 Allows the creation of offline UML diagrams based on the [yUML Syntax](http://yuml.me/).
 
 <a href="https://www.npmjs.com/package/yuml-diagram"><img alt="NPM Status" src="https://img.shields.io/npm/v/yuml-diagram.svg?style=flat"></a>
+[![github](https://img.shields.io/github/stars/jaime-olivares/yuml-diagram.svg)]()
 [![Build Status](https://dev.azure.com/jaime-olivares-f/yuml-diagram/_apis/build/status/jaime-olivares.yuml-diagram?branchName=master)](https://dev.azure.com/jaime-olivares-f/yuml-diagram/_build/latest?definitionId=2&branchName=master)
 
 ![Example](example.png)
