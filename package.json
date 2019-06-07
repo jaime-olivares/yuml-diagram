@@ -27,7 +27,6 @@
   "main": "./index.js",
   "runkitExampleFilename": "./test/npm_test.js",
   "dependencies": {
-    "jsdom": "^11.11.0",
-    "viz.js": "^1.8.2"
+    "jsdom": "^11.11.0"
   }
 }

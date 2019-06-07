@@ -5,7 +5,7 @@ const stateDiagram = require('../diagrams/state-diagram.js');
 const deploymentDiagram = require('../diagrams/deployment-diagram.js');
 const packageDiagram = require('../diagrams/package-diagram.js');
 const sequenceDiagram = require('../diagrams/sequence-diagram.js');
-const Viz = require("viz.js");
+const Viz = require("../../lib/viz-lite.js");
 require('./svg-utils.js')();
 
 module.exports = function()
@@ -82,7 +82,7 @@ module.exports = function()
                 svg = processEmbeddedImages(svg, isDark);
             }
             catch (e) {
-                return "Error composing the diagram"
+                return "Error composing the diagram";
             }
         }
 

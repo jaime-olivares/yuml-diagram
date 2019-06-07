@@ -45,6 +45,6 @@ Have a nice diagram to show? Please send it for publishing here!
 
 ## Credits
 * Syntax and some examples taken from [yuml.me](http://yuml.me/diagram/scruffy/class/samples)
-* This package uses a Javascript port of [Dot/Graphviz](http://www.graphviz.org/) called [viz.js](https://github.com/mdaines/viz.js)
+* This package embeds a Javascript port of [Dot/Graphviz](http://www.graphviz.org/) called [viz.js](https://github.com/mdaines/viz.js)
 * The yuml-to-dot translator is loosely based on a Python project called [scruffy](https://github.com/aivarsk/scruffy)
 * The new sequence diagram is based on [this github fork](https://github.com/sharvil/node-sequence-diagram)
