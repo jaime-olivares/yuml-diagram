@@ -150,12 +150,12 @@ module.exports = function(actors, signals, uids, isDark)
 
         // Vertical line
         var aX = getCenterX(a);
-        var line = this.svg_.createPath('M{0},{1} v{2}', "solid",
+        var line = this.svg_.createPath('M{0},{1} v{2}', 'solid', 'none',
             aX,
             y + this._actors_height - ACTOR_MARGIN,
             2 * ACTOR_MARGIN + this._signals_height);
 
-        this.svg_.getDocument().appendChild(line);
+        this.svg_.appendChild(line);
       }, this);
     };
 
@@ -195,14 +195,14 @@ module.exports = function(actors, signals, uids, isDark)
 
       this.draw_text(x, y, signal.message, true);
 
-      var line = this.svg_.createPath("M{0},{1} C{2},{1} {2},{3} {0},{3}", signal.linetype,
+      var line = this.svg_.createPath("M{0},{1} C{2},{1} {2},{3} {0},{3}", signal.linetype, 'none',
           aX, 
           offsetY + SIGNAL_MARGIN,
           aX + SELF_SIGNAL_WIDTH * 2,
           offsetY + signal.height);
-      line.setAttribute("marker-end", "url(#" + signal.arrowtype + ")");
+      line = this.svg_.setAttribute(line, "marker-end", "url(#" + signal.arrowtype + ")");
 
-      this.svg_.getDocument().appendChild(line);
+      this.svg_.appendChild(line);
     };
 
     this.draw_signal = function (signal, offsetY) 
@@ -219,22 +219,23 @@ module.exports = function(actors, signals, uids, isDark)
 
         // Draw the line along the bottom of the signal
         y = offsetY + signal.height - SIGNAL_MARGIN - SIGNAL_PADDING;
-        var line = this.svg_.createPath('M{0},{1} h{2}', signal.linetype, aX, y, (bX - aX));
-        line.setAttribute("marker-end", "url(#" + signal.arrowtype + ")");
+        var line = this.svg_.createPath('M{0},{1} h{2}', signal.linetype, 'none', aX, y, (bX - aX));
+        line = this.svg_.setAttribute(line, "marker-end", "url(#" + signal.arrowtype + ")");
 
-        this.svg_.getDocument().appendChild(line);
+        this.svg_.appendChild(line);
     };
 
     this.draw_note = function (note, offsetY) 
     {
         var aX = getCenterX( note.actor );
         var margin = NOTE_MARGIN;
+        var fill = note.bgcolor || 'none';
 
         note.x = aX + ACTOR_MARGIN;
         note.y = offsetY;
 
         var noteShape = this.svg_.createPath("M{0},{1} L{0},{2} L{3},{2} L{0},{1} L{4},{1} L{4},{5} L{3},{5} L{3},{2} Z",
-            "solid", 
+            'solid', fill,
             note.x - margin + note.width - 7, 
             note.y + margin,
             note.y + margin + 7,
@@ -242,10 +243,7 @@ module.exports = function(actors, signals, uids, isDark)
             note.x + margin,
             note.y - margin + note.height);
 
-        if (note.hasOwnProperty("bgcolor"))
-            noteShape.setAttribute("style", noteShape.getAttribute("style").replace("fill: none", "fill: " + note.bgcolor));
-
-        this.svg_.getDocument().appendChild(noteShape);
+        this.svg_.appendChild(noteShape);
 
         // Draw text (in the center)
         x = getCenterX(note);
@@ -264,14 +262,12 @@ module.exports = function(actors, signals, uids, isDark)
         if (!dontDrawBox) 
         {
             var size = this.svg_.getTextSize(text);
-            var rect = this.svg_.createRect(size.width, size.height);
-            rect.setAttribute('x', x);
-            rect.setAttribute('y', y);
+            var rect = this.svg_.createRect(x, y, size.width, size.height);
 
-            this.svg_.getDocument().appendChild(rect);
+            this.svg_.appendChild(rect);
         }
 
-        this.svg_.getDocument().appendChild(t);
+        this.svg_.appendChild(t);
     };
 
     this.draw_text_box = function (box, text, margin) 
@@ -282,12 +278,10 @@ module.exports = function(actors, signals, uids, isDark)
         var h = box.height - 2 * margin;
 
         // Draw inner box
-        var rect = this.svg_.createRect(w, h);
-        rect.setAttribute('x', x);
-        rect.setAttribute('y', y);
+        var rect = this.svg_.createRect(x, y, w, h);
 
         //rect.classList.add(Renderer.RECT_CLASS_);
-        this.svg_.getDocument().appendChild(rect);
+        this.svg_.appendChild(rect);
 
         // Draw text (in the center)
         x = getCenterX(box);
