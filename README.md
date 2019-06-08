@@ -39,6 +39,37 @@ var svgDarkBg = yuml.processYumlDocument(yumlText, true);
 
 Try a live example with **`RunKit`**: https://runkit.com/embed/r21r931hzoqm
 
+## Browserified distribution
+
+For using this library in a browser application, include the script at [/dist/yuml-diagram.min.js](https://github.com/jaime-olivares/yuml-diagram/blob/master/dist/yuml-diagram.min.js) in your project.
+
+The following example shows how to use it:
+
+````html
+<html>
+    <head>
+        <script src="yuml-diagram.min.js"></script>
+        <script>
+            function loadSvg()
+            {
+                var yumlText = 
+                    `// {type:class}
+                    [A]->[B]`;
+
+                // Generate the diagram
+                var yuml  = new yuml_diagram();
+                var svg = yuml.processYumlDocument(yumlText, false);
+
+                document.body.innerHTML = svg;
+            }
+        </script>
+    </head>
+    <body onload="loadSvg();">        
+    </body>
+</html>
+
+````
+
 ## Contributing
 For pull requests, please read [CONTRIBUTING.md](https://github.com/jaime-olivares/yuml-diagram/blob/master/CONTRIBUTING.md)
 
