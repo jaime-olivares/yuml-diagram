@@ -248,7 +248,7 @@ module.exports = function()
         else
             colorTable = {};
 
-        var rgb = fs.readFileSync(__dirname + "/../data/rgb.txt", {encoding:"utf8", flag:"r"}).split('\n');
+        var rgb = fs.readFileSync(__dirname + "/../../data/rgb.txt", {encoding:"utf8", flag:"r"}).split('\n');
         for (var i=0; i<rgb.length; i++)
         {
             var parts = /^(\d+) (\d+) (\d+) (.*)$/.exec(rgb[i]);
