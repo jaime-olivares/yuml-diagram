@@ -84,8 +84,6 @@ module.exports = function(specLines, options)
                     else
                     {
                         label = formatLabel(label, 20, true);
-                        if (type == "record")
-                            label = "{" + label + "}";
 
                         var node = {
                             shape: type,
