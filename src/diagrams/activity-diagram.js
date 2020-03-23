@@ -12,6 +12,7 @@ Decisions          (start)-><d1>
 Decisions w/Label  (start)-><d1>logged in->(Show Dashboard), <d1>not logged in->(Show Login Page)
 Parallel	       (Action1)->|a|,(Action 2)->|a|
 Note               (Action1)-(note: A note message here)
+Object Node        [Object]
 Comment            // Comments
 */
 
@@ -20,7 +21,14 @@ module.exports = function(specLines, options)
     function parseYumlExpr(specLine)
     {
         var exprs = [];
-        var parts = this.splitYumlExpr(specLine, "(<|");
+        var parts = this.splitYumlExpr(specLine, "[(<|");
+
+
+        // yUML syntax allows any character in decision labels.
+        // The following variable serves as flag to avoid parsing 
+        // brackets characters inside labels.
+        var isDecisionLabel = false;
+        var decisionLabelBuffer = "";
 
         for (var i=0; i<parts.length; i++)
         {
@@ -28,26 +36,38 @@ module.exports = function(specLines, options)
             if (part.length == 0)
                 continue;
 
-            if (part.match(/^\(.*\)$/)) // activity
+            if (part.match(/->$/))  // arrow
+            {
+                isDecisionLabel = false;
+                decisionLabelBuffer = "";
+      
+                part = decisionLabelBuffer + part.substr(0, part.length-2).trim();
+                exprs.push(["edge", "none", "vee", part, "solid"]);
+            }
+            else if (isDecisionLabel)
+            {
+                // decision label parts
+                decisionLabelBuffer += part;
+            }
+            else if (part.match(/^\(.*\)$/)) // activity
             {
                 part = part.substr(1, part.length-2);
                 var ret = extractBgAndNote(part, true);
-                exprs.push([ret.isNote ? "note" : "record", ret.part, ret.bg, ret.fontcolor]);
+                exprs.push([ret.isNote ? "note" : "record", ret.part, 'rounded', ret.bg, ret.fontcolor]);
             }
             else if (part.match(/^<.*>$/)) // decision
             {
                 part = part.substr(1, part.length-2);
                 exprs.push(["diamond", part]);
             }
+            else if (/^\[.*\]$/.test(part)) // object node
+            {
+                exprs.push(["record", part.substr(1, part.length - 2).trim()]);
+            }
             else if (part.match(/^\|.*\|$/)) // bar
             {
                 part = part.substr(1, part.length-2);
                 exprs.push(["mrecord", part]);
-            }
-            else if (part.match(/->$/))  // arrow
-            {
-                part = part.substr(0, part.length-2).trim();
-                exprs.push(["edge", "none", "vee", part, "solid"]);
             }
             else if (part == '-')  // connector for notes
             {
@@ -100,16 +120,16 @@ module.exports = function(specLines, options)
                             fontsize: 10,
                             margin: "0.20,0.05",
                             label: escape_label(label),
-                            style: "rounded"
+                            style: elem[k][2]
                         }
 
-                        if (elem[k][2]) {
+                        if (elem[k][3]) {
                             node.style += ",filled";
-                            node.fillcolor = elem[k][2];
+                            node.fillcolor = elem[k][3];
                         }
 
-                        if (elem[k][3])
-                            node.fontcolor = elem[k][3];                        
+                        if (elem[k][4])
+                            node.fontcolor = elem[k][4];                        
                     }
 
                     elements.push([uid, node]);
