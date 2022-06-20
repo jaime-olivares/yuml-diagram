@@ -1,4 +1,6 @@
-255 250 250 snow
+module.exports = function()
+{
+    return `255 250 250 snow
 248 248 255 GhostWhite
 245 245 245 WhiteSmoke
 220 220 220 gainsboro
@@ -691,4 +693,5 @@
 128 128 0 olive
 102 51 153 RebeccaPurple
 192 192 192 silver
-0 128 128 teal
+0 128 128 teal`;
+}

@@ -1,4 +1,4 @@
-const fs = require('fs');
+const getRGB = require('./rgb.js');
 
 module.exports = function()
 {
@@ -137,13 +137,27 @@ module.exports = function()
 
     this.formatLabel = function(label, wrap, allowDivisors)
     {
+        label = label.trim();
+
         var lines = [label];
 
         if (allowDivisors && label.indexOf("|") >= 0)
             lines = label.split('|');
 
         for (var j=0; j<lines.length; j++)
-            lines[j] = wordwrap(lines[j], wrap, "\n");
+        {
+            if (j==0 || !allowDivisors)
+            {
+                lines[j] = wordwrap(lines[j], wrap, "\n");
+            }
+            else
+            {
+                if (!lines[j].endsWith(";"))
+                    lines[j] += ";";
+
+                lines[j] = lines[j].replaceAll(";", "\\l");
+            }
+        }
 
         label = lines.join('|');
 
@@ -157,7 +171,9 @@ module.exports = function()
 
         var p;
         for (p = width; p>0 && str[p]!=' '; p--) { }
-        if (p > 0) {
+
+        if (p > 0) 
+        {
             var left = str.substring(0, p);
             var right = str.substring(p+1);
             return left + newline + this.wordwrap(right, width, newline);
@@ -166,70 +182,9 @@ module.exports = function()
         return str;
     }
 
-    this.serializeDot = function(obj)
+    this.serializeDot = function(obj, rankdir)
     {
-        if (obj.shape === "record" && !/^<.+>(|<.+>)*$/.test(obj.label)) 
-        {
-            // Graphviz documentation says (https://www.graphviz.org/doc/info/shapes.html):
-            // The record-based shape has largely been superseded and greatly generalized by HTML-like labels.
-            // That is, instead of using shape=record, one might consider using shape=none, margin=0 and an HTML-like label. [...]
-            // Also note that there are problems using non-trivial edges (edges with ports or labels) between adjacent nodes
-            // on the same rank if one or both nodes has a record shape.
-        
-            if (obj.label.includes("|")) {
-                // If label contains a pipe (I.E. multi-row record shapes), we need to use an HTML-like label
-                const rows = obj.label.split("|");
-          
-                const createSingleCellRow = (attr, text, fontSize) => {
-                  let htmlTDNode = "<TD " + attr;
-                  if (text.startsWith("<")) {
-                    const closingTagPosition = text.indexOf(">");
-                    htmlTDNode += ` PORT="${text.substr(1, closingTagPosition - 1)}"`;
-                    text = text.substr(closingTagPosition + 1);
-                  }
-                  htmlTDNode += ">";
-                  if (fontSize) {
-                    htmlTDNode += `<FONT POINT-SIZE="${fontSize}">`;
-                  }
-                  for (const char of unescape_label(text)) {
-                    htmlTDNode += ESCAPED_CHARS[char] || char;
-                  }
-                  if (fontSize) {
-                    htmlTDNode += `</FONT>`;
-                  }
-                  htmlTDNode += "</TD>";
-                  return `<TR>${htmlTDNode}</TR>`;
-                };
-          
-                const title = rows.shift();
-                return `[fontsize=${
-                  obj.fontsize
-                },label=<<TABLE CELLBORDER="1" CELLSPACING="0" CELLPADDING="9" ${
-                  obj.fillcolor ? `BGCOLOR="${obj.fillcolor}"` : ""
-                } ${obj.fontcolor ? `COLOR="${obj.fontcolor}"` : ""} ${
-                  obj.style && obj.style === "rounded" ? 'STYLE="ROUNDED"' : ""
-                }>${createSingleCellRow('BORDER="0"', title)}${rows
-                  .map(text =>
-                    createSingleCellRow('SIDES="T"', text, obj.fontsize * 0.9)
-                  )
-                  .join("")}</TABLE>>]`;
-            }
-        
-            // On single-row "record", we can use a simpler "rectangle" shape
-            obj.shape = "rectangle";
-          }
-
-          return (
-            "[" +
-            Object.keys(obj)
-              .map(
-                key =>
-                  `${key}=` +
-                  ("string" === typeof obj[key] ? `"${obj[key]}"` : obj[key])
-              )
-              .join(" , ") +
-            " ]"
-          );
+          return "[" + Object.keys(obj).map(key => `${key}=` + ("string" === typeof obj[key] ? `"${obj[key]}"` : obj[key])).join(" , ") + " ]";
     }
 
     this.serializeDotElements = function(arr)
@@ -268,7 +223,8 @@ module.exports = function()
         else
             colorTable = {};
 
-        var rgb = fs.readFileSync(__dirname + "/../../data/rgb.txt", {encoding:"utf8", flag:"r"}).split('\n');
+        var rgb = getRGB();
+
         for (var i=0; i<rgb.length; i++)
         {
             var parts = /^(\d+) (\d+) (\d+) (.*)$/.exec(rgb[i]);

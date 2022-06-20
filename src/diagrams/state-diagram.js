@@ -34,6 +34,12 @@ module.exports = function(specLines, options)
             else if (part.match(/->$/))  // arrow
             {
                 part = part.substr(0, part.length-2).trim();
+
+                if (part.startsWith("["))
+                    part = part.substring(1);
+                if (part.endsWith("]"))
+                    part = part.substring(0, part.length-1);
+
                 exprs.push(["edge", "none", "vee", part, "solid"]);
             }
             else if (part == '-')  // connector for notes

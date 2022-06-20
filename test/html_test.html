@@ -4,17 +4,18 @@
         <script>
             function loadSvg()
             {
-                var yumlText = 
-                    `// {type:sequence}
-                    [:Computer]async test>>[:Server]
-                    [:Computer]sync test>[:Server]`;
+                var yumlText = document.getElementById("yuml").value;
 
                 var yuml  = new yuml_diagram();
                 var svg = yuml.processYumlDocument(yumlText, false);
-                document.body.innerHTML = svg;
+                document.getElementById("diag").innerHTML = svg;
             }
         </script>
     </head>
-    <body onload="loadSvg();">        
+
+    <body>
+        <textarea id="yuml"  rows="15" cols="80"></textarea>
+        <button style="display:block;" onclick="loadSvg()">Update</button>
+        <div id="diag"></div>
     </body>
 </html>

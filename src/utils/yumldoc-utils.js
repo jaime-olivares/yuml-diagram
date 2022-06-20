@@ -78,6 +78,8 @@ module.exports = function()
         if (dot !== null)
         {
             try {
+console.log(buildDotHeader(isDark) + dot);
+
                 svg = Viz(buildDotHeader(isDark) + dot);
                 svg = processEmbeddedImages(svg, isDark);
             }

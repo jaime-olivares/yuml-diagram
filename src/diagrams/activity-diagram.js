@@ -9,7 +9,7 @@ Activity           (Find Products)
 Flow	           (start)->(Find Products)
 Multiple Assoc.    (start)->(Find Products)->(end)
 Decisions          (start)-><d1>
-Decisions w/Label  (start)-><d1>logged in->(Show Dashboard), <d1>not logged in->(Show Login Page)
+Decisions w/Label  (start)-><d1>[logged in]->(Show Dashboard), <d1>[not logged in]->(Show Login Page)
 Parallel	       (Action1)->|a|,(Action 2)->|a|
 Note               (Action1)-(note: A note message here)
 Object Node        [Object]
@@ -22,7 +22,6 @@ module.exports = function(specLines, options)
     {
         var exprs = [];
         var parts = this.splitYumlExpr(specLine, "[(<|");
-
 
         // yUML syntax allows any character in decision labels.
         // The following variable serves as flag to avoid parsing 
@@ -38,16 +37,11 @@ module.exports = function(specLines, options)
 
             if (part.match(/->$/))  // arrow
             {
+                part = decisionLabelBuffer;
+                exprs.push(["edge", "none", "vee", part, "solid"]);
+
                 isDecisionLabel = false;
                 decisionLabelBuffer = "";
-      
-                part = decisionLabelBuffer + part.substr(0, part.length-2).trim();
-                exprs.push(["edge", "none", "vee", part, "solid"]);
-            }
-            else if (isDecisionLabel)
-            {
-                // decision label parts
-                decisionLabelBuffer += part;
             }
             else if (part.match(/^\(.*\)$/)) // activity
             {
@@ -62,7 +56,15 @@ module.exports = function(specLines, options)
             }
             else if (/^\[.*\]$/.test(part)) // object node
             {
-                exprs.push(["record", part.substr(1, part.length - 2).trim()]);
+                if (i == 0 || exprs[exprs.length-1][0] == "edge")
+                {
+                    exprs.push(["record", part.substr(1, part.length - 2).trim()]);
+                }
+                else
+                {
+                    decisionLabelBuffer = part.substr(1, part.length - 2).trim();
+                    isDecisionLabel = true;
+                }
             }
             else if (part.match(/^\|.*\|$/)) // bar
             {

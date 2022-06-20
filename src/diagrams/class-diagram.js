@@ -135,13 +135,17 @@ module.exports = function(specLines, options)
                     var uid = 'A' + (len++).toString();
                     uids[recordName(label)] = uid;
 
-                    label = formatLabel(label, 20, true);
+                    if (elem[k][0] == "record")
+                    {
+                        label = formatLabel(label, 20, true);
 
-                    // if (elem[k][0] == "record")
-                    // {
-                    //    if (options.dir == "TB")
-                    //        label = "{" + label + "}";
-                    // }
+                        if (options.dir == "TB")
+                           label = "{" + label + "}";
+                    }
+                    else
+                    {
+                        label = formatLabel(label, 20, true);
+                    }
 
                     var node = {
                         shape: elem[k][0],
@@ -234,6 +238,7 @@ module.exports = function(specLines, options)
         }
 
         dot += '}\r\n';
+
         return dot;
     }
 
