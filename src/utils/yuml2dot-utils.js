@@ -177,25 +177,45 @@ module.exports = function()
             // on the same rank if one or both nodes has a record shape.
         
             if (obj.label.includes("|")) {
-              // If label contains a pipe, we need to use an HTML-like label
-              return `[fontsize=10,label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="9" ${
+                // If label contains a pipe (I.E. multi-row record shapes), we need to use an HTML-like label
+                const rows = obj.label.split("|");
+          
+                const createSingleCellRow = (attr, text, fontSize) => {
+                  let htmlTDNode = "<TD " + attr;
+                  if (text.startsWith("<")) {
+                    const closingTagPosition = text.indexOf(">");
+                    htmlTDNode += ` PORT="${text.substr(1, closingTagPosition - 1)}"`;
+                    text = text.substr(closingTagPosition + 1);
+                  }
+                  htmlTDNode += ">";
+                  if (fontSize) {
+                    htmlTDNode += `<FONT POINT-SIZE="${fontSize}">`;
+                  }
+                  for (const char of unescape_label(text)) {
+                    htmlTDNode += ESCAPED_CHARS[char] || char;
+                  }
+                  if (fontSize) {
+                    htmlTDNode += `</FONT>`;
+                  }
+                  htmlTDNode += "</TD>";
+                  return `<TR>${htmlTDNode}</TR>`;
+                };
+          
+                const title = rows.shift();
+                return `[fontsize=${
+                  obj.fontsize
+                },label=<<TABLE CELLBORDER="1" CELLSPACING="0" CELLPADDING="9" ${
                   obj.fillcolor ? `BGCOLOR="${obj.fillcolor}"` : ""
-                } ${obj.fontcolor ? `COLOR="${obj.fontcolor}"` : ""}>${
-                obj.label
-                  .split("|")
-                  .map(text => {
-                    text = this.unescape_label(text);
-                    let htmlTDNode = "<TD>";
-                    for (const char of text) {
-                      htmlTDNode += ESCAPED_CHARS[char] || char;
-                    }
-                    htmlTDNode += "</TD>";
-                    return `<TR>${htmlTDNode}</TR>`;
-                  })
+                } ${obj.fontcolor ? `COLOR="${obj.fontcolor}"` : ""} ${
+                  obj.style && obj.style === "rounded" ? 'STYLE="ROUNDED"' : ""
+                }>${createSingleCellRow('BORDER="0"', title)}${rows
+                  .map(text =>
+                    createSingleCellRow('SIDES="T"', text, obj.fontsize * 0.9)
+                  )
                   .join("")}</TABLE>>]`;
             }
         
-            // To avoid this issue, we can use a "rectangle" shape
+            // On single-row "record", we can use a simpler "rectangle" shape
             obj.shape = "rectangle";
           }
 
